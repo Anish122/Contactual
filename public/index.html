@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="contactual">
+<head>
+    <meta charset="UTF-8">
+    <title>Contactual | Welcome</title>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <script src="javascripts/angular.min.js"></script>
+    <script src="javascripts/controller.js"></script>
+</head>
+<body ng-controller="userloginController">
+    <div class="container" ng-init="isSigninPanelDisabled=false;isSignupPanelDisabled=true">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2" style="margin-top:5%">
+            <div class="input-group">
+                <div class="col-md-1" style="margin-top:27px;"><i class="glyphicon glyphicon-phone-alt"></i></div>
+                <div class="col-md-11"><h2> Welcome to Contactual.</h2></div>
+            </div>
+            <!--login page begins-->
+            <div class="panel panel-info" style="margin-top: 5%" ng-hide="isSigninPanelDisabled">
+                <div class="panel-heading">
+                    <div class="panel-title">Signin</div>
+                    <div class="" style="float: right;font-size: 80%; position: relative;top: -10px"><a href="#"> Forgot Password?</a></div>
+                </div >
+                <div class="panel-body">
+                    <form name="loginForm" ng-submit="authorizeUser()" novalidate>
+
+                        <div ng-class="{'has-error':submitted && loginForm.$invalid}">
+                            <div class="input-group" style="margin-top: 3%">
+                                <div class="input-group-addon"><i class="glyphicon glyphicon-user"></i></div>
+                                <input type="text" name="eusername" class="form-control" ng-model="user.userName" placeholder="Username" required/>
+                            </div>
+                            <span class="help-block" ng-show="submitted && loginForm.eusername.$error.required">Please enter user name.</span>
+
+                            <div class="input-group" style="margin-top: 5%">
+                                <div class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></div>
+                                <input type="password" class="form-control" name="euserpassword" ng-model="user.password" placeholder="Password" required/>
+                            </div>
+                            <span class="help-block" ng-show="submitted && loginForm.euserpassword.$error.required">Please enter password.</span>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 5%;margin-left: 33%">
+                            <button type="submit" class="btn btn-success" ng-click="submitted=true"><i class="glyphicon glyphicon-ok"></i>&nbsp;Login</button>
+                            <button type="button" class="btn btn-warning" ng-click="clearForm()"><i class="glyphicon glyphicon-remove"></i>&nbsp;Clear</button>
+                        </div>
+                    </form>
+                    <div><hr class=""></div>
+                    <div class="">Don't have an account! <a href="#" ng-click="togglePanel()">Sign Up Here</a></div>
+                </div>
+            </div><!--login page ends-->
+            <!--Signup page begins-->
+            <div class="panel panel-info" style="margin-top: 5%" ng-hide="isSignupPanelDisabled">
+                <div class="panel-heading">
+                    <div class="panel-title">Signup</div>
+                    <div class="" style="float: right;font-size: 80%; position: relative;top: -10px" ng-click="togglePanel()"><a href="#"> Signin</a></div>
+                </div >
+                <div class="panel-body">
+                    <form ng-submit="registerUser()" class="form-horizontal" name="signUpForm" novalidate>
+                        <div ng-class="{'has-error':submitted && signUpForm.$invalid}">
+                            <div class="form-group">
+                                <div class="col-md-4 control-label">
+                                    <label for="newuser.userName">Name:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="nuserName" ng-pattern="/^[A-Za-z\s]*$/" ng-model="newuser.name" placeholder="name" required/>
+                                    <span class="help-block" ng-show="submitted && (signUpForm.nuserName.$error.required || signUpForm.nuserName.$invalid)">Please enter valid username.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-4 control-label">
+                                    <label for="newuser.age">Age:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" class="form-control" name="nuserage" ng-minlength="2" ng-maxlength="3" ng-pattern="/^[0-9]+$/" ng-model="newuser.age" placeholder="Age" required/>
+                                    <span class="help-block" ng-show="submitted && (signUpForm.nuserage.$error.required || signUpForm.nuserage.$invalid)">Please enter valid age.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-4 control-label">
+                                    <label for="newuser.dob">Date of birth:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="date" class="form-control" name="nuserdob" ng-model="newuser.dob" placeholder="Date of birth" required/>
+                                    <span class="help-block" ng-show="submitted && signUpForm.nuserdob.$error.required">Please enter your dob.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-4 control-label">
+                                    <label for="newuser.email">Email:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="email" class="form-control" name="nuseremail" ng-pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/" ng-model="newuser.email" placeholder="Email" required/>
+                                    <span class="help-block" ng-show="submitted && (signUpForm.nuseremail.$error.required || signUpForm.nuseremail.$invalid)">Please enter valid email id.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-4 control-label">
+                                    <label for="newuser.phone">Phone:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" class="form-control" name="nuserphone" ng-model="newuser.phone" ng-minlength="10" ng-maxlength="10" ng-pattern="/^[0-9]+$/" placeholder="Phone" required/>
+                                    <span class="help-block" ng-show="submitted && (signUpForm.nuserphone.$error.required || signUpForm.nuserphone.$invalid)">Please enter valid phone number.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-4 control-label">
+                                    <label for="newuser.password">Choose password:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="password" class="form-control" name="nuserpassword" ng-model="newuser.password" placeholder="Password" required/>
+                                    <span class="help-block" ng-show="submitted && signUpForm.nuserpassword.$error.required">Please set a password.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-4 control-label">
+                                    <label for="newuser.cpassword">Confirm password:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="password" class="form-control" name="nusercpassword" ng-model="newuser.cpassword" placeholder="Confirm password" required/>
+                                    <span class="help-block" ng-if="newuser.password != newuser.cpassword">Password does not match.</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="input-group" style="margin-top: 5%;margin-left: 33%">
+                            <button type="submit" class="btn btn-success" ng-click="submitted=true"><i class="glyphicon glyphicon-ok"></i>&nbsp;Login</button>
+                            <button type="button" class="btn btn-warning" ng-click="clearForm()"><i class="glyphicon glyphicon-remove"></i>&nbsp;Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--Signup page ends-->
+        </div>
+    </div>
+</body>
+</html>
