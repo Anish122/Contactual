@@ -31,14 +31,12 @@ app.get('/', function(req, res, next) {
 app.post('/registerUser', function(request, response, next) {
     var collection = db.get("userData");
     console.log("app.js :: /registerUser :: coming here" + request.body);
-    collection.insert(request.body, function(err, data){
-        if (err){
-            console.log("error adding contact to contact list.");
-        } else {
-            response.json(data);
-        }
-    });
-    response.sendFile('index.html', { root: __dirname+'/public' });
+    //TODO below::
+    // check for username from userDetail collection.
+    // If user exists then show error: User already exists.
+    // If user does not exists then hash the password. Put username and password in credential collection and user detail in userDetail collection
+
+    //response.sendFile('index.html', { root: __dirname+'/public' });
 });
 
 // catch 404 and forward to error handler
